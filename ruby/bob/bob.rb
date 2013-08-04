@@ -1,29 +1,33 @@
 class Bob
-  def hey(message)
-    message = message.to_s
+  def hey(str)
+    message = Message.new str
     case
-    when is_silence?(message)
+    when message.silence?
       'Fine. Be that way!'
-    when is_shouting?(message)
+    when message.shouting?
       'Woah, chill out!'
-    when is_question?(message)
+    when message.question?
       'Sure.'
     else
       'Whatever.'
     end
   end
+end
 
-  private
-
-  def is_silence?(message)
-    message.strip == ''
+class Message < String
+  def initialize(obj)
+    super(obj.to_s)
   end
 
-  def is_shouting?(message)
-    message == message.upcase
+  def silence?
+    strip == ''
   end
 
-  def is_question?(message)
-    message.end_with? '?'
+  def shouting?
+    upcase == self
+  end
+
+  def question?
+    end_with? '?'
   end
 end
