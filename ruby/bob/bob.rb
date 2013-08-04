@@ -1,6 +1,6 @@
 class Bob
-  def hey(str)
-    message = Message.new str
+  def hey(text)
+    message = Message.new text
     case
     when message.silence?
       'Fine. Be that way!'
