@@ -14,20 +14,20 @@ class Bob
   end
 end
 
-class Message < String
-  def initialize(obj)
-    super(obj.to_s)
+class Message
+  def initialize(text)
+    @text = text.to_s
   end
 
   def silence?
-    strip == ''
+    @text.strip == ''
   end
 
   def shouting?
-    upcase == self
+    @text.upcase == @text
   end
 
   def question?
-    end_with? '?'
+    @text.end_with? '?'
   end
 end
