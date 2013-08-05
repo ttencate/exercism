@@ -17,6 +17,10 @@ end
 class Histogram
   def initialize(items=[])
     @counts = Hash.new(0)
+    count_items(items)
+  end
+
+  def count_items(items)
     items.each &method(:count_item)
   end
 
