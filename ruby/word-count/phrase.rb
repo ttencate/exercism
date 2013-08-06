@@ -1,34 +1,25 @@
 class Phrase
-  def initialize(string)
-    @histogram = Histogram.new(sanitize(string).split)
+  def initialize(text)
+    @text = text.to_s
   end
 
   def word_count
-    @histogram.to_hash
+    Histogram.new(words).to_hash
   end
 
   private
 
-  def sanitize(string)
-    string.gsub(/\W/, ' ').downcase
+  def words
+    @text.downcase.scan(/\w+/)
   end
 end
 
 class Histogram
   def initialize(items=[])
-    @counts = Hash.new(0)
-    count_items(items)
-  end
-
-  def count_items(items)
-    items.each &method(:count_item)
-  end
-
-  def count_item(item)
-    @counts[item] += 1
+    @counts = items.each_with_object(Hash.new(0)) {|item, counts| counts[item] += 1}
   end
 
   def to_hash
-    @counts
+    @counts.dup
   end
 end
