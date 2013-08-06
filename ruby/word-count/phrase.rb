@@ -4,7 +4,7 @@ class Phrase
   end
 
   def word_count
-    Histogram.new(words).to_hash
+    Histogram::create_histogram(words)
   end
 
   private
@@ -14,12 +14,10 @@ class Phrase
   end
 end
 
-class Histogram
-  def initialize(items=[])
-    @counts = items.each_with_object(Hash.new(0)) {|item, counts| counts[item] += 1}
-  end
-
-  def to_hash
-    @counts.dup
+module Histogram
+  def self.create_histogram(items)
+    items.each_with_object(Hash.new(0)) do |item, counts|
+      counts[item] += 1
+    end
   end
 end
