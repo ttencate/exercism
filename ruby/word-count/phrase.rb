@@ -4,7 +4,7 @@ class Phrase
   end
 
   def word_count
-    Histogram::create_histogram(words)
+    Histogram.create_histogram(words)
   end
 
   private
