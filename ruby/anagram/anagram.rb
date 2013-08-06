@@ -4,7 +4,7 @@ class Anagram
   end
 
   def match(haystack)
-    haystack.select {|word| fingerprint(word) == @needle}
+    haystack.select { |word| fingerprint(word) == @needle }
   end
 
   private
