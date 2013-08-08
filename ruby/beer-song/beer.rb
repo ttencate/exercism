@@ -1,39 +1,45 @@
 class Beer
   def verse(num)
-    verse_lines(num).join("\n") + "\n"
+    join_lines(verse_lines(num))
   end
 
   def sing(first, last = 0)
-    lines = []
-    first.downto(last) do |num|
-      lines << verse_lines(num)
-      lines << ''
+    lines = (last..first).to_a.reverse.map do |num|
+      verse_lines(num) + ['']
     end
-    lines.join("\n") + "\n"
+    join_lines(lines)
   end
 
   private
 
-  def verse_lines(num)
-    lines = []
-    lines << "#{bottles(num).capitalize} of beer on the wall, #{bottles(num)} of beer."
-    if num > 0
-      lines << "Take #{refer_to_bottle(num)} down and pass it around, #{bottles(num - 1)} of beer on the wall."
-    else
-      lines << "Go to the store and buy some more, 99 bottles of beer on the wall."
-    end
-    lines
+  def verse_lines(bottles_of_beer)
+    [
+      "#{num(bottles_of_beer).capitalize} on the wall, " +
+        "#{num(bottles_of_beer)}.",
+
+      if bottles_of_beer.zero?
+        "Go to the store and buy some more, " +
+          "99 bottles of beer on the wall."
+      else
+        "Take #{one(bottles_of_beer)} down and pass it around, " +
+          "#{num(bottles_of_beer - 1)} on the wall."
+      end,
+    ]
   end
 
-  def bottles(num)
+  def num(num)
     case num
-    when 0 then 'no more bottles'
-    when 1 then '1 bottle'
-    else "#{num} bottles"
+    when 0 then 'no more bottles of beer'
+    when 1 then '1 bottle of beer'
+    else "#{num} bottles of beer"
     end
   end
 
-  def refer_to_bottle(num)
-    num == 1 ? 'it' : 'one'
+  def one(bottles_of_beer)
+    bottles_of_beer == 1 ? 'it' : 'one'
+  end
+
+  def join_lines(lines)
+    lines.join("\n") + "\n"
   end
 end
