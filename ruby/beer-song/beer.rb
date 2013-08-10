@@ -1,23 +1,39 @@
+class Singer
+  attr_reader :lyrics
+
+  def initialize
+    @lyrics = ''
+  end
+
+  def sing_line(line)
+    @lyrics << line + "\n"
+  end
+
+  def sing_lines(lines)
+    lines.each { |line| sing_line line }
+  end
+
+  def self.song_lyrics(&block)
+    singer = Singer.new
+    block.call(singer)
+    singer.lyrics
+  end
+end
+
 class Beer
   def verse(num)
-    join_lines(BeerVerse.new(num).lines)
+    Singer.song_lyrics do |singer|
+      singer.sing_lines BeerVerse.new(num).lines
+    end
   end
 
   def sing(first, last = 0)
-    lines = (last..first).to_a.reverse.map do |num|
-      BeerVerse.new(num).lines + blank_line
+    Singer.song_lyrics do |singer|
+      (last..first).to_a.reverse.map do |num|
+        singer.sing_lines BeerVerse.new(num).lines
+        singer.sing_line ''
+      end
     end
-    join_lines(lines)
-  end
-
-  private
-
-  def join_lines(lines)
-    lines.join("\n") + "\n"
-  end
-
-  def blank_line
-    ['']
   end
 end
 
@@ -37,7 +53,7 @@ class BeerVerse
       else
         "Take #{@bottles_of_beer.one} down and pass it around, " +
           "#{@bottles_of_beer - 1} on the wall."
-      end,
+      end
     ]
   end
 end
