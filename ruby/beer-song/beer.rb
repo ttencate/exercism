@@ -46,7 +46,7 @@ class Beer
 
       if bottles_of_beer.no_more?
         "Go to the store and buy some more, " +
-          "99 bottles of beer on the wall."
+          "#{BottlesOfBeer.new(99)} on the wall."
       else
         "Take #{bottles_of_beer.one} down and pass it around, " +
           "#{bottles_of_beer - 1} on the wall."
