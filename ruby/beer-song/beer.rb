@@ -23,36 +23,33 @@ end
 class Beer
   def verse(num)
     Singer.song_lyrics do |singer|
-      singer.sing_lines BeerVerse.new(num).lines
+      singer.sing_lines verse_lines(num)
     end
   end
 
   def sing(first, last = 0)
     Singer.song_lyrics do |singer|
       (last..first).to_a.reverse.map do |num|
-        singer.sing_lines BeerVerse.new(num).lines
+        singer.sing_lines verse_lines(num)
         singer.sing_line ''
       end
     end
   end
-end
 
-class BeerVerse
-  def initialize(num)
-    @bottles_of_beer = BottlesOfBeer.new(num)
-  end
+  private
 
-  def lines
+  def verse_lines(num)
+    bottles_of_beer = BottlesOfBeer.new(num)
     [
-      "#{@bottles_of_beer.capitalize} on the wall, " +
-        "#{@bottles_of_beer}.",
+      "#{bottles_of_beer.capitalize} on the wall, " +
+        "#{bottles_of_beer}.",
 
-      if @bottles_of_beer.no_more?
+      if bottles_of_beer.no_more?
         "Go to the store and buy some more, " +
           "99 bottles of beer on the wall."
       else
-        "Take #{@bottles_of_beer.one} down and pass it around, " +
-          "#{@bottles_of_beer - 1} on the wall."
+        "Take #{bottles_of_beer.one} down and pass it around, " +
+          "#{bottles_of_beer - 1} on the wall."
       end
     ]
   end
