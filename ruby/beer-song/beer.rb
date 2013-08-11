@@ -29,7 +29,7 @@ class Beer
 
   def sing(first, last = 0)
     Singer.song_lyrics do |singer|
-      (last..first).to_a.reverse.map do |num|
+      first.downto(last) do |num|
         singer.sing_lines verse_lines(num)
         singer.sing_line ''
       end
