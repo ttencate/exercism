@@ -13,7 +13,7 @@ class Singer
     lines.each { |line| sing_line line }
   end
 
-  def self.song_lyrics(&block)
+  def self.perform(&block)
     singer = Singer.new
     block.call(singer)
     singer.lyrics
@@ -22,13 +22,13 @@ end
 
 class Beer
   def verse(num)
-    Singer.song_lyrics do |singer|
+    Singer.perform do |singer|
       singer.sing_lines verse_lines(num)
     end
   end
 
   def sing(first, last = 0)
-    Singer.song_lyrics do |singer|
+    Singer.perform do |singer|
       first.downto(last) do |num|
         singer.sing_lines verse_lines(num)
         singer.sing_line ''
@@ -41,7 +41,7 @@ class Beer
   def verse_lines(num)
     bottles_of_beer = BottlesOfBeer.new(num)
     [
-      "#{bottles_of_beer.capitalize} on the wall, " +
+      "#{bottles_of_beer.to_s.capitalize} on the wall, " +
         "#{bottles_of_beer}.",
 
       if bottles_of_beer.no_more?
@@ -78,9 +78,5 @@ class BottlesOfBeer
 
   def -(delta)
     BottlesOfBeer.new(@num - delta)
-  end
-
-  def method_missing(method, *args, &block)
-    to_s.send(method, *args, &block)
   end
 end
