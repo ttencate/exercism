@@ -6,7 +6,7 @@ class Singer
   end
 
   def sing_line(line)
-    @lyrics << line + "\n"
+    @lyrics += line + "\n"
   end
 
   def sing_lines(lines)
