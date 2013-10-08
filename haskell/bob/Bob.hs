@@ -3,9 +3,9 @@ module Bob (responseFor) where
 import Data.Char
 
 isSilence = all isSpace
-isYelling s = any isUpper s && (all isUpper $ filter isLetter s)
+isYelling s = (any isUpper s) && (not $ any isLower s)
 isQuestion = (== '?') . last
-isIndifferent _ = True
+isIndifferent = const True
 
 responseFor s
   | isSilence s     = "Fine. Be that way!"
