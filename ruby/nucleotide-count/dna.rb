@@ -5,11 +5,10 @@ class DNA
   end
 
   def nucleotide_counts
-    counts = Hash[DNA_NUCLEOTIDES.map { |nucl| [nucl, 0] }]
-    @nucleotides.chars.each do |nucleotide|
+    zero_counts = Hash[DNA_NUCLEOTIDES.map { |nucl| [nucl, 0] }]
+    @nucleotides.chars.each_with_object(zero_counts) do |nucleotide, counts|
       counts[nucleotide] += 1
     end
-    counts
   end
 
   def count(nucl)
@@ -19,8 +18,8 @@ class DNA
 
   private
 
-  DNA_NUCLEOTIDES = 'ACGT'.chars
-  RNA_NUCLEOTIDES = 'ACGU'.chars
+  DNA_NUCLEOTIDES = %w[A C G T]
+  RNA_NUCLEOTIDES = %w[A C G U]
 
   def dna_nucleotide?(nucl)
     DNA_NUCLEOTIDES.include?(nucl)
