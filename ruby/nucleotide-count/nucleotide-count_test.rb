@@ -8,7 +8,7 @@ class DNATest < MiniTest::Unit::TestCase
 
   def test_empty_dna_string_has_no_nucleotides
     expected = {'A' => 0, 'T' => 0, 'C' => 0, 'G' => 0}
-    assert_equal expected, DNA.new("").nucleotide_counts
+    assert_equal expected, DNA.new('').nucleotide_counts
   end
 
   def test_repetitive_cytidine_gets_counted
@@ -37,18 +37,30 @@ class DNATest < MiniTest::Unit::TestCase
   def test_dna_counts_do_not_change_after_counting_uracil
     dna = DNA.new('GATTACA')
     dna.count('U')
-    expected = {"A"=>3, "T"=>2, "C"=>1, "G"=>1}
+    expected = {'A' => 3, 'T' => 2, 'C' => 1, 'G' => 1}
     assert_equal expected, dna.nucleotide_counts
   end
 
   def test_validates_nucleotides
     assert_raises ArgumentError do
-      DNA.new("GACT").count('X')
+      DNA.new('GACT').count('X')
+    end
+  end
+
+  def test_validates_dna_not_rna
+    assert_raises ArgumentError do
+      DNA.new('ACGU')
+    end
+  end
+
+  def test_validates_dna
+    assert_raises ArgumentError do
+      DNA.new('John')
     end
   end
 
   def test_counts_all_nucleotides
-    s = "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"
+    s = 'AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC'
     dna = DNA.new(s)
     expected = {'A' => 20, 'T' => 21, 'G' => 17, 'C' => 12}
     assert_equal expected, dna.nucleotide_counts

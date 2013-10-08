@@ -1,7 +1,6 @@
 class DNA
-  DNA_NUCLEOTIDES = %w(A C G T)
-
   def initialize(nucleotides)
+    raise ArgumentError unless nucleotides.chars.all? {|c| dna_nucleotide?(c)}
     @nucleotides = nucleotides
   end
 
@@ -18,13 +17,19 @@ class DNA
 
   private
 
+  DNA_NUCLEOTIDES = 'ACGT'.chars
+
   def zero_counts
     DNA_NUCLEOTIDES.each_with_object({}) do |nucleotide, counts|
       counts[nucleotide] = 0
     end
   end
 
+  def dna_nucleotide?(nucl)
+    DNA_NUCLEOTIDES.include?(nucl)
+  end
+
   def nucleotide?(nucl)
-    DNA_NUCLEOTIDES.include?(nucl) || nucl == 'U'
+    dna_nucleotide?(nucl) || nucl == 'U'
   end
 end
