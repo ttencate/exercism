@@ -1,13 +1,15 @@
 class DNA
   def initialize(nucleotides)
-    raise ArgumentError unless nucleotides.chars.all? { |c| dna_nucleotide?(c) }
+    raise ArgumentError unless nucleotides.chars.all?(&method(:dna_nucleotide?))
     @nucleotides = nucleotides
   end
 
   def nucleotide_counts
-    @nucleotides.chars.each_with_object(zero_counts) do |nucleotide, counts|
+    counts = Hash[DNA_NUCLEOTIDES.map { |nucl| [nucl, 0] }]
+    @nucleotides.chars.each do |nucleotide|
       counts[nucleotide] += 1
     end
+    counts
   end
 
   def count(nucl)
@@ -19,10 +21,6 @@ class DNA
 
   DNA_NUCLEOTIDES = 'ACGT'.chars
   RNA_NUCLEOTIDES = 'ACGU'.chars
-
-  def zero_counts
-    Hash[DNA_NUCLEOTIDES.map { |nucl| [nucl, 0] }]
-  end
 
   def dna_nucleotide?(nucl)
     DNA_NUCLEOTIDES.include?(nucl)
