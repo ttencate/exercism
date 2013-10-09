@@ -5,15 +5,12 @@ class DNA
   end
 
   def nucleotide_counts
-    zero_counts = Hash[DNA_NUCLEOTIDES.map { |nucl| [nucl, 0] }]
-    @nucleotides.chars.each_with_object(zero_counts) do |nucleotide, counts|
-      counts[nucleotide] += 1
-    end
+    Hash[DNA_NUCLEOTIDES.map { |nucl| [nucl, count(nucl)] }]
   end
 
   def count(nucl)
     raise ArgumentError unless dna_or_rna_nucleotide?(nucl)
-    nucleotide_counts[nucl] || 0
+    @nucleotides.chars.count(nucl)
   end
 
   private
